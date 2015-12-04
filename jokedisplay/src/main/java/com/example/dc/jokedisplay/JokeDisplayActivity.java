@@ -13,7 +13,7 @@ public class JokeDisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke_display);
         TextView jokeView = (TextView) findViewById(R.id.joke_textview);
-
+//TODO: Check on orientation change.
         String jokeString = getIntent().getStringExtra(JOKE_KEY);
         if(jokeString != null && jokeString.length() != 0){
             jokeView.setText(jokeString);
