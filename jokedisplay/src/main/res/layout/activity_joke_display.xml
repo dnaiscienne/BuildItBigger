@@ -12,5 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/joke_textview"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hey Hey"
+        android:layout_below="@id/joke_textview"/>
+
 
 </RelativeLayout>
