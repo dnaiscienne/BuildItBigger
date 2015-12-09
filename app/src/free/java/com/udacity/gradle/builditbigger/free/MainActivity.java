@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.OnT
     public void tellJoke(View view){
 //        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
         FetchJokeTask fetchJokeTask = new FetchJokeTask(this);
-        fetchJokeTask.execute(this);
+        fetchJokeTask.execute();
     }
 
 

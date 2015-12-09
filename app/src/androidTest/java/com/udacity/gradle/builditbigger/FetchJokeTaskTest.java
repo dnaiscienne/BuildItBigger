@@ -16,7 +16,7 @@ public class FetchJokeTaskTest extends AndroidTestCase implements FetchJokeTask.
 
     public void testFetchJokeTask()throws InterruptedException{
         final FetchJokeTask fetchJokeTask = new FetchJokeTask(this);
-        fetchJokeTask.execute(getContext());
+        fetchJokeTask.execute();
         signal.await();
     }
 
