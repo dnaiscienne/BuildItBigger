@@ -23,7 +23,11 @@ public class FetchJokeTask extends AsyncTask<Void, Void, String> {
     private OnTaskCompleted listener;
 
     public FetchJokeTask(OnTaskCompleted listener){
+
         this.listener = listener;
+        if (listener instanceof Activity){
+            this.progressDialog = new ProgressDialog((Activity)listener);
+        }
     }
 
     private static MyApi myApiService = null;
@@ -32,8 +36,9 @@ public class FetchJokeTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPreExecute() {
-        if (listener instanceof Activity){
-
+        if (progressDialog != null){
+            progressDialog.setMessage("Retrieving Jokes");
+            progressDialog.show();
         }
         super.onPreExecute();
     }
@@ -58,6 +63,11 @@ public class FetchJokeTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String result) {
 //        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        if(progressDialog != null){
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+        }
         listener.onTaskCompleted(result);
     }
 }
