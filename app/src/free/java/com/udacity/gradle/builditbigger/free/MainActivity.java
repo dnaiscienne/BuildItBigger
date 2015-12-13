@@ -6,12 +6,18 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.dc.jokedisplay.JokeDisplayActivity;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.udacity.gradle.builditbigger.FetchJokeTask;
 import com.udacity.gradle.builditbigger.R;
 
 public class MainActivity extends ActionBarActivity implements FetchJokeTask.OnTaskCompleted {
+
+    InterstitialAd mInterstitialAd;
 
     @Override
     public void onTaskCompleted(String joke) {
@@ -24,6 +30,18 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.OnT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.test_ad_unit_id));
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                fetchJoke();
+            }
+        });
+
+        requestNewInterstitial();
     }
 
 
@@ -32,6 +50,14 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.OnT
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+    private void requestNewInterstitial() {
+        Toast.makeText(this, "Requesting AD", Toast.LENGTH_SHORT).show();
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
     @Override
@@ -51,6 +77,18 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.OnT
 
     public void tellJoke(View view){
 //        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Button is clicked", Toast.LENGTH_SHORT).show();
+        if(mInterstitialAd.isLoaded()){
+            Toast.makeText(this, "This is an AD", Toast.LENGTH_SHORT).show();
+            mInterstitialAd.show();
+        }else{
+            Toast.makeText(this, "joke is called", Toast.LENGTH_SHORT).show();
+            fetchJoke();
+        }
+
+    }
+
+    public void fetchJoke(){
         FetchJokeTask fetchJokeTask = new FetchJokeTask(this);
         fetchJokeTask.execute();
     }
