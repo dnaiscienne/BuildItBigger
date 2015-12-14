@@ -11,12 +11,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/joke_textview"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hey Hey"
-        android:layout_below="@id/joke_textview"/>
-
-
+        android:id="@+id/joke_textview"
+        android:layout_centerInParent="true"
+        android:textStyle="italic"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="20sp" />
 </RelativeLayout>

@@ -6,10 +6,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.dc.jokedisplay.JokeDisplayActivity;
 import com.udacity.gradle.builditbigger.FetchJokeTask;
 import com.udacity.gradle.builditbigger.R;
+import com.udacity.gradle.builditbigger.Utility;
 
 public class MainActivity extends ActionBarActivity implements FetchJokeTask.OnTaskCompleted {
 
@@ -50,7 +52,14 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.OnT
     }
 
     public void tellJoke(View view){
-//        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
+        if (Utility.isNetworkAvailable(this)){
+            fetchJoke();
+        }else{
+            Toast.makeText(this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void fetchJoke(){
         FetchJokeTask fetchJokeTask = new FetchJokeTask(this);
         fetchJokeTask.execute();
     }

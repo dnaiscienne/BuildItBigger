@@ -14,6 +14,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.udacity.gradle.builditbigger.FetchJokeTask;
 import com.udacity.gradle.builditbigger.R;
+import com.udacity.gradle.builditbigger.Utility;
 
 public class MainActivity extends ActionBarActivity implements FetchJokeTask.OnTaskCompleted {
 
@@ -52,7 +53,6 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.OnT
         return true;
     }
     private void requestNewInterstitial() {
-        Toast.makeText(this, "Requesting AD", Toast.LENGTH_SHORT).show();
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
@@ -76,15 +76,16 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.OnT
     }
 
     public void tellJoke(View view){
-//        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "Button is clicked", Toast.LENGTH_SHORT).show();
-        if(mInterstitialAd.isLoaded()){
-            Toast.makeText(this, "This is an AD", Toast.LENGTH_SHORT).show();
-            mInterstitialAd.show();
+        if (Utility.isNetworkAvailable(this)){
+            if(mInterstitialAd.isLoaded()){
+                mInterstitialAd.show();
+            }else{
+                fetchJoke();
+            }
         }else{
-            Toast.makeText(this, "joke is called", Toast.LENGTH_SHORT).show();
-            fetchJoke();
+            Toast.makeText(this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
         }
+
 
     }
 
