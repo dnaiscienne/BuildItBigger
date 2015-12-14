@@ -18,5 +18,17 @@ allprojects {
     }
 }
 task testEverything{
+    evaluationDependsOn ":backend"
+    dependsOn ":app:connectedAndroidTest"
+    finalizedBy ":backend:appengineStop"
+
+    project(":backend"){
+        appengine{
+            daemon true
+        }
+    }
+    doLast{
+        println "Task testEverything complete"
+    }
 
 }
